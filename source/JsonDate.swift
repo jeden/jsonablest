@@ -14,6 +14,7 @@ extension NSDate {
 		let iso8610DateFormatter = NSDateFormatter()
 		iso8610DateFormatter.timeStyle = .FullStyle
 		iso8610DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+		iso8610DateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
 		return iso8610DateFormatter
 	}
 

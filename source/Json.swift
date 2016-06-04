@@ -26,14 +26,15 @@ public func JsonInt(object: JsonType?) -> Int? { return object as? Int }
 public func JsonFloat(object: JsonType?) -> Float? { return object as? Float }
 public func JsonDouble(object: JsonType?) -> Double? { return object as? Double }
 public func JsonBool(object: JsonType?) -> Bool? { return object as? Bool }
-public func JsonDate(object: JsonType?) -> NSDate? { return NSDate.dateFromIso8610(JsonString(object)) }
-public func JsonObject(object: JsonType?) -> JsonDictionary? { return object as? JsonDictionary }
-public func JsonEntity<T: JsonDecodable>(object: JsonType?) -> T? {
-    if let object: JsonType = object {
-        return T.decode(object)
-    }
-    return .None
+public func JsonDate(object: JsonType?) -> NSDate? {
+	if let date = object as? NSDate {
+		return date 
+	} else {
+		return NSDate.dateFromIso8610(JsonString(object))
+	}
 }
+public func JsonObject(object: JsonType?) -> JsonDictionary? { return object as? JsonDictionary }
+public func JsonList<T>(list: JsonType?) -> [T]? { return list as? [T] }
 public func JsonList<T: JsonDecodable>(list: JsonType?) -> [T]? {
 	if let list = list as? JsonArray {
 		var array = [T]()
@@ -43,6 +44,12 @@ public func JsonList<T: JsonDecodable>(list: JsonType?) -> [T]? {
 			}
 		}
 		return array
+	}
+	return .None
+}
+public func JsonEntity<T: JsonDecodable>(object: JsonType?) -> T? {
+	if let object: JsonType = object {
+		return T.decode(object)
 	}
 	return .None
 }
