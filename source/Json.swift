@@ -9,33 +9,103 @@
 
 import Foundation
 
-public typealias JsonType = AnyObject
+/// A generic JSON type
+public typealias JsonType = Any
+
+/// A JSON object containing (potentially nested) fields
 public typealias JsonDictionary = Dictionary<String, JsonType>
+
+/// An array of JsonType
 public typealias JsonArray = Array<JsonType>
 
+// MARK: - JsonDecodable
+
 public protocol JsonDecodable {
-    static func decode(json: JsonType) -> Self?
+	@available(iOS, deprecated: 9.4, renamed: "jsonDecode")
+    static func decode(_ json: JsonType) -> Self?
+
+	static func jsonDecode(_ json: JsonType) -> Self?
 }
 
-public protocol JsonEncodable {
-    func encode() -> JsonDictionary
-}
-
-public func JsonString(object: JsonType?) -> String? { return object as? String }
-public func JsonInt(object: JsonType?) -> Int? { return object as? Int }
-public func JsonFloat(object: JsonType?) -> Float? { return object as? Float }
-public func JsonDouble(object: JsonType?) -> Double? { return object as? Double }
-public func JsonBool(object: JsonType?) -> Bool? { return object as? Bool }
-public func JsonDate(object: JsonType?) -> NSDate? {
-	if let date = object as? NSDate {
-		return date 
-	} else {
-		return NSDate.dateFromIso8610(JsonString(object))
+extension JsonDecodable {
+	public static func decode(_ json: JsonType) -> Self? {
+		return .none
 	}
 }
-public func JsonObject(object: JsonType?) -> JsonDictionary? { return object as? JsonDictionary }
-public func JsonList<T>(list: JsonType?) -> [T]? { return list as? [T] }
-public func JsonList<T: JsonDecodable>(list: JsonType?) -> [T]? {
+
+// MARK: - JsonEncodable
+
+public protocol JsonEncodable {
+	@available(iOS, deprecated: 9.4, renamed: "jsonEncode")
+    func encode() -> JsonDictionary
+
+	func jsonEncode() -> JsonDictionary
+}
+
+extension JsonEncodable {
+	public func encode() -> JsonDictionary {
+		return [:]
+	}
+}
+
+/// When adopted, the type can specify a list of fields to be excluded by the
+/// `exportJson()` method
+public protocol JsonEncodingIgnorable {
+	var jsonIgnoreList: [String] { get }
+}
+
+extension JsonEncodable {
+	/// Default implementation of the jsonEncode method()
+	/// It loops through all type fields, which are not included in the optional
+	/// list of fields specified via the `JsonEncodingIgnorable` interface, and export
+	/// as a `JsonDictionary`
+	public func jsonEncode() -> JsonDictionary {
+		var dict: JsonDictionary = [:]
+		let ignoreList: Set<String>
+
+		if let ignorable = self as? JsonEncodingIgnorable {
+			ignoreList = Set<String>(ignorable.jsonIgnoreList)
+		} else {
+			ignoreList = Set<String>()
+		}
+
+		let mirror = Mirror(reflecting: self)
+		for child in mirror.children {
+			guard let label = child.label else { continue }
+			guard ignoreList.contains(label) == false else { continue }
+
+			switch child.value {
+			case let value as JsonEncodable:
+				dict[label] = value.jsonEncode() as JsonType?
+			case let value:
+				dict[label] = value
+			}
+		}
+
+		return dict
+	}
+}
+
+// MARK: - Types
+
+public func JsonString(_ object: JsonType?) -> String? { return object as? String }
+public func JsonInt(_ object: JsonType?) -> Int? { return object as? Int }
+public func JsonFloat(_ object: JsonType?) -> Float? { return object as? Float }
+public func JsonDouble(_ object: JsonType?) -> Double? { return object as? Double }
+public func JsonBool(_ object: JsonType?) -> Bool? { return object as? Bool }
+public func JsonDate(_ object: JsonType?) -> Date? {
+	switch object {
+	case let date as Date:
+		return date
+	case let date as String:
+		return Date.dateFromIso8610(date)
+	default:
+		return .none
+	}
+}
+public func JsonObject(_ object: JsonType?) -> JsonDictionary? { return object as? JsonDictionary }
+public func JsonList<T>(_ list: JsonType?) -> [T]? { return list as? [T] }
+public func JsonList<T: JsonDecodable>(_ list: JsonType?) -> [T]? {
 	if let list = list as? JsonArray {
 		var array = [T]()
 		for listElement in list {
@@ -45,47 +115,47 @@ public func JsonList<T: JsonDecodable>(list: JsonType?) -> [T]? {
 		}
 		return array
 	}
-	return .None
+	return .none
 }
-public func JsonEntity<T: JsonDecodable>(object: JsonType?) -> T? {
+public func JsonEntity<T: JsonDecodable>(_ object: JsonType?) -> T? {
 	if let object: JsonType = object {
 		return T.decode(object)
 	}
-	return .None
+	return .none
 }
 
-infix operator >>> { associativity left precedence 150 }
-public func >>> <A, B>(a: A?, f: A -> B?) -> B? {
+infix operator >>> : MultiplicationPrecedence
+public func >>> <A, B>(a: A?, f: (A) -> B?) -> B? {
     if let x = a {
         return f(x)
     }
-    return .None
+    return .none
 }
 
 
-infix operator <^> { associativity left precedence 140 }
-public func <^> <A, B>(f: A -> B, a: A?) -> B? {
+infix operator <^>: AdditionPrecedence
+public func <^> <A, B>(f: (A) -> B, a: A?) -> B? {
     if let x = a {
         return f(x)
     }
-    return .None
+    return .none
 }
 
 
-infix operator <&&> { associativity left precedence 140 }
-public func <&&> <A, B>(f: (A -> B)?, a: A?) -> B? {
+infix operator <&&>: AdditionPrecedence
+public func <&&> <A, B>(f: ((A) -> B)?, a: A?) -> B? {
     if let x = a {
         if let fx = f {
             return fx(x)
         }
     }
-    return .None
+    return .none
 }
 
-infix operator <||> { associativity left }
-public func <||> <A, B>(f: (A? -> B)? , a: A?) -> B? {
+infix operator <||>: AdditionPrecedence
+public func <||> <A, B>(f: ((A?) -> B)? , a: A?) -> B? {
     if let fx = f {
-        return fx(a != nil ? a : .None)
+        return fx(a != nil ? a : .none)
     }
-    return .None
+    return .none
 }
