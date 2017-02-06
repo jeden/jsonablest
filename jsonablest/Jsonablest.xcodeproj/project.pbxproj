@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		5704FDDD1D0384A4008BD382 /* Jsonablest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5704FDDC1D0384A4008BD382 /* Jsonablest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5704FDE41D0384A4008BD382 /* Jsonablest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5704FDD91D0384A4008BD382 /* Jsonablest.framework */; };
-		5704FDE91D0384A4008BD382 /* JsonablestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDE81D0384A4008BD382 /* JsonablestTests.swift */; };
+		5704FDE91D0384A4008BD382 /* EncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDE81D0384A4008BD382 /* EncodingTests.swift */; };
 		5704FDF31D038505008BD382 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDF11D038505008BD382 /* Json.swift */; };
 		5704FDF41D038505008BD382 /* JsonDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDF21D038505008BD382 /* JsonDate.swift */; };
+		579F12171DCB915900C58752 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579F12161DCB915900C58752 /* DecodingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,10 +30,12 @@
 		5704FDDC1D0384A4008BD382 /* Jsonablest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Jsonablest.h; sourceTree = "<group>"; };
 		5704FDDE1D0384A4008BD382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5704FDE31D0384A4008BD382 /* JsonablestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonablestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5704FDE81D0384A4008BD382 /* JsonablestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonablestTests.swift; sourceTree = "<group>"; };
+		5704FDE81D0384A4008BD382 /* EncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingTests.swift; sourceTree = "<group>"; };
 		5704FDEA1D0384A4008BD382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5704FDF11D038505008BD382 /* Json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Json.swift; path = ../../source/Json.swift; sourceTree = "<group>"; };
 		5704FDF21D038505008BD382 /* JsonDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonDate.swift; path = ../../source/JsonDate.swift; sourceTree = "<group>"; };
+		5723096A1DCBD842000C607F /* scratchpad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = scratchpad.playground; sourceTree = "<group>"; };
+		579F12161DCB915900C58752 /* DecodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +89,10 @@
 		5704FDE71D0384A4008BD382 /* JsonablestTests */ = {
 			isa = PBXGroup;
 			children = (
-				5704FDE81D0384A4008BD382 /* JsonablestTests.swift */,
+				579F12161DCB915900C58752 /* DecodingTests.swift */,
+				5704FDE81D0384A4008BD382 /* EncodingTests.swift */,
 				5704FDEA1D0384A4008BD382 /* Info.plist */,
+				5723096A1DCBD842000C607F /* scratchpad.playground */,
 			);
 			path = JsonablestTests;
 			sourceTree = "<group>";
@@ -149,13 +154,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				TargetAttributes = {
 					5704FDD81D0384A4008BD382 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					5704FDE21D0384A4008BD382 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -208,7 +215,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5704FDE91D0384A4008BD382 /* JsonablestTests.swift in Sources */,
+				579F12171DCB915900C58752 /* DecodingTests.swift in Sources */,
+				5704FDE91D0384A4008BD382 /* EncodingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,12 +234,49 @@
 		5704FDD21D038400008BD382 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		5704FDD31D038400008BD382 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};
@@ -253,7 +298,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -288,6 +333,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -312,7 +358,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -339,6 +385,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -392,6 +439,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -433,6 +481,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.elapsus.JsonablestTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -456,6 +505,7 @@
 				5704FDEC1D0384A4008BD382 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5704FDF01D0384A4008BD382 /* Build configuration list for PBXNativeTarget "JsonablestTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +514,7 @@
 				5704FDEE1D0384A4008BD382 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
