@@ -13,6 +13,8 @@
 		5704FDF31D038505008BD382 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDF11D038505008BD382 /* Json.swift */; };
 		5704FDF41D038505008BD382 /* JsonDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5704FDF21D038505008BD382 /* JsonDate.swift */; };
 		579F12171DCB915900C58752 /* DecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579F12161DCB915900C58752 /* DecodingTests.swift */; };
+		57C3DDC11EC0FA9300A81E1C /* Jsonablest.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 57C3DDC01EC0FA9300A81E1C /* Jsonablest.podspec */; };
+		57C3DDC31EC0FA9C00A81E1C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 57C3DDC21EC0FA9C00A81E1C /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		5704FDF21D038505008BD382 /* JsonDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonDate.swift; path = ../../source/JsonDate.swift; sourceTree = "<group>"; };
 		5723096A1DCBD842000C607F /* scratchpad.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = scratchpad.playground; sourceTree = "<group>"; };
 		579F12161DCB915900C58752 /* DecodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodingTests.swift; sourceTree = "<group>"; };
+		57C3DDC01EC0FA9300A81E1C /* Jsonablest.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Jsonablest.podspec; sourceTree = "<group>"; };
+		57C3DDC21EC0FA9C00A81E1C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 		5704FDCD1D038400008BD382 = {
 			isa = PBXGroup;
 			children = (
+				57C3DDC21EC0FA9C00A81E1C /* LICENSE */,
+				57C3DDC01EC0FA9300A81E1C /* Jsonablest.podspec */,
 				5704FDDB1D0384A4008BD382 /* Jsonablest */,
 				5704FDE71D0384A4008BD382 /* JsonablestTests */,
 				5704FDDA1D0384A4008BD382 /* Products */,
@@ -189,6 +195,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57C3DDC31EC0FA9C00A81E1C /* LICENSE in Resources */,
+				57C3DDC11EC0FA9300A81E1C /* Jsonablest.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
