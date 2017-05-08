@@ -77,6 +77,8 @@ extension JsonEncodable {
 			switch child.value {
 			case let value as JsonEncodable:
 				dict[label] = value.jsonEncode() as JsonType?
+			case let value as Date:
+				dict[label] = value.toIso8610()
 			case let value:
 				dict[label] = value
 			}

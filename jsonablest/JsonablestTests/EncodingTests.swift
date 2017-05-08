@@ -9,6 +9,9 @@
 import XCTest
 import Jsonablest
 
+private let someTimeInterval: TimeInterval = 1494261446.378659
+private let someTimestamp = Date(timeIntervalSince1970: someTimeInterval)
+
 class EncodingTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -26,10 +29,11 @@ class EncodingTests: XCTestCase {
 			"twoInt": 2,
 			"threeFloat": 3.0,
 			"fourDouble": 4.0,
-			"fiveBool": true
+			"fiveBool": true,
+			"sixDate": someTimestamp.toIso8610()
 		]
 
-		let structure = StructWithNoExplicitEncode(oneString: "one", twoInt: 2, threeFloat: 3.0, fourDouble: 4.0, fiveBool: true)
+		let structure = StructWithNoExplicitEncode(oneString: "one", twoInt: 2, threeFloat: 3.0, fourDouble: 4.0, fiveBool: true, sixDate: Date(timeIntervalSince1970: someTimeInterval))
 
 		let exportedDictionary = structure.jsonEncode()
 
@@ -79,6 +83,7 @@ private struct StructWithNoExplicitEncode : JsonEncodable {
 	let threeFloat: Float
 	let fourDouble: Double
 	let fiveBool: Bool
+	let sixDate: Date
 }
 
 private struct SimpleInt : JsonEncodable {
