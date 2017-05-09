@@ -30,10 +30,11 @@ class EncodingTests: XCTestCase {
 			"threeFloat": 3.0,
 			"fourDouble": 4.0,
 			"fiveBool": true,
-			"sixDate": someTimestamp.toIso8610()
+			"sixDate": someTimestamp.toIso8610(),
+			"sevenOptional": 7,
 		]
 
-		let structure = StructWithNoExplicitEncode(oneString: "one", twoInt: 2, threeFloat: 3.0, fourDouble: 4.0, fiveBool: true, sixDate: Date(timeIntervalSince1970: someTimeInterval))
+		let structure = StructWithNoExplicitEncode(oneString: "one", twoInt: 2, threeFloat: 3.0, fourDouble: 4.0, fiveBool: true, sixDate: Date(timeIntervalSince1970: someTimeInterval), sevenOptional: 7, eightNil: nil)
 
 		let exportedDictionary = structure.jsonEncode()
 
@@ -84,6 +85,8 @@ private struct StructWithNoExplicitEncode : JsonEncodable {
 	let fourDouble: Double
 	let fiveBool: Bool
 	let sixDate: Date
+	let sevenOptional: Int?
+	let eightNil: Bool?
 }
 
 private struct SimpleInt : JsonEncodable {

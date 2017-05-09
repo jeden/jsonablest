@@ -74,7 +74,15 @@ extension JsonEncodable {
 			guard let label = child.label else { continue }
 			guard ignoreList.contains(label) == false else { continue }
 
-			switch child.value {
+			let value: Any? = {
+				let mirror = Mirror(reflecting: child.value)
+				guard mirror.displayStyle == .optional else { return child.value }
+				guard let (_, first) = mirror.children.first else { return nil }
+				return first
+			}()
+
+			switch value {
+			case .none: break
 			case let value as JsonEncodable:
 				dict[label] = value.jsonEncode() as JsonType?
 			case let value as Date:
