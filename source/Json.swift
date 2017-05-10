@@ -119,7 +119,7 @@ public func JsonList<T: JsonDecodable>(_ list: JsonType?) -> [T]? {
 	if let list = list as? JsonArray {
 		var array = [T]()
 		for listElement in list {
-			if let element = T.decode(listElement) {
+			if let element = T.jsonDecode(listElement) {
 				array.append(element)
 			}
 		}
@@ -129,7 +129,7 @@ public func JsonList<T: JsonDecodable>(_ list: JsonType?) -> [T]? {
 }
 public func JsonEntity<T: JsonDecodable>(_ object: JsonType?) -> T? {
 	if let object: JsonType = object {
-		return T.decode(object)
+		return T.jsonDecode(object)
 	}
 	return .none
 }
@@ -151,6 +151,9 @@ public func <^> <A, B>(f: (A) -> B, a: A?) -> B? {
     return .none
 }
 
+public func <^> <A, B>(f: (A?) -> B, a: A?) -> B {
+	return f(a)
+}
 
 infix operator <&&>: AdditionPrecedence
 public func <&&> <A, B>(f: ((A) -> B)?, a: A?) -> B? {
