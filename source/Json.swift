@@ -51,7 +51,11 @@ extension JsonEncodable {
 /// When adopted, the type can specify a list of fields to be excluded by the
 /// `exportJson()` method
 public protocol JsonEncodingIgnorable {
-	var jsonIgnoreList: [String] { get }
+	var jsonFieldIgnores: [String] { get }
+}
+
+public protocol JsonEncodingReplaceable {
+	var jsonFieldReplacements: [String : String] { get }
 }
 
 extension JsonEncodable {
@@ -62,17 +66,25 @@ extension JsonEncodable {
 	public func jsonEncode() -> JsonDictionary {
 		var dict: JsonDictionary = [:]
 		let ignoreList: Set<String>
+		let replacementList: [String : String]
 
 		if let ignorable = self as? JsonEncodingIgnorable {
-			ignoreList = Set<String>(ignorable.jsonIgnoreList)
+			ignoreList = Set<String>(ignorable.jsonFieldIgnores)
 		} else {
 			ignoreList = Set<String>()
+		}
+
+		if let replaceable = self as? JsonEncodingReplaceable {
+			replacementList = replaceable.jsonFieldReplacements
+		} else {
+			replacementList = [:]
 		}
 
 		let mirror = Mirror(reflecting: self)
 		for child in mirror.children {
 			guard let label = child.label else { continue }
 			guard ignoreList.contains(label) == false else { continue }
+			let key = replacementList[label] ?? label
 
 			let value: Any? = {
 				let mirror = Mirror(reflecting: child.value)
@@ -84,11 +96,11 @@ extension JsonEncodable {
 			switch value {
 			case .none: break
 			case let value as JsonEncodable:
-				dict[label] = value.jsonEncode() as JsonType?
+				dict[key] = value.jsonEncode() as JsonType?
 			case let value as Date:
-				dict[label] = value.toIso8610()
+				dict[key] = value.toIso8610()
 			case let value:
-				dict[label] = value
+				dict[key] = value
 			}
 		}
 
