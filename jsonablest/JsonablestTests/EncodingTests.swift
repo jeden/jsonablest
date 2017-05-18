@@ -72,6 +72,16 @@ class EncodingTests: XCTestCase {
 		let exported = value.jsonEncode()
 		XCTAssert(expected == exported, "The generated json doens't match the expected one")
 	}
+
+	func testAutomaticEncodeWithReplacementFields() {
+		let value = FieldsWithReplacements(original: "yes", replaced: "it should be replaced")
+		let expected: JsonDictionary = [
+			"original": "yes",
+			"replacement": "it should be replaced"
+		]
+		let exported = value.jsonEncode()
+		XCTAssert(expected == exported, "The generated json doens't match the expected one")
+	}
 }
 
 // MARK: Internal structures
@@ -103,10 +113,21 @@ private struct FieldsWithIgnores : JsonEncodable {
 }
 
 extension FieldsWithIgnores : JsonEncodingIgnorable {
-	var jsonIgnoreList : [String] {
+	var jsonFieldIgnores : [String] {
 		return ["ignored"]
 	}
  }
+
+private struct FieldsWithReplacements : JsonEncodable {
+	let original: String
+	let replaced: String
+}
+
+extension FieldsWithReplacements : JsonEncodingReplaceable {
+	var jsonFieldReplacements : [String : String] {
+		return [ "replaced": "replacement" ]
+	}
+}
 
 private func == (op1: JsonDictionary, op2: JsonDictionary) -> Bool {
 	return NSDictionary(dictionary: op1).isEqual(to: op2)
