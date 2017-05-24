@@ -146,6 +146,43 @@ public func JsonEntity<T: JsonDecodable>(_ object: JsonType?) -> T? {
 	return .none
 }
 
+#if os(iOS)
+
+import UIKit
+
+public func JsonColor(_ color: JsonType?) -> UIColor? {
+	guard let color = color as? String else { return .none }
+	return UIColor(hexColor: color)
+}
+
+private extension UIColor {
+	convenience init?(hexColor: String) {
+		let color: NSMutableString = NSMutableString(string: hexColor)
+		color.replaceOccurrences(of: "#", with: "", options: [], range: NSRange(location: 0, length: color.length))
+		if color.length == 6 {
+			color.append("FF")
+		}
+		guard color.length == 8 else { return nil }
+
+		let scanner = Scanner(string: color as String)
+		var hex: UInt64 = 0
+
+		guard scanner.scanHexInt64(&hex) else { return nil }
+		let hexColor = UInt32(hex)
+		self.init(color: hexColor)
+	}
+	convenience init(color: UInt32) {
+		let red = (color >> 24) & 0xFF
+		let green = (color >> 16) & 0xFF
+		let blue = (color >> 8) & 0xFF
+		let alpha = (color >> 0) & 0xFF
+
+		self.init(red: (CGFloat(red) / 255.0), green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: CGFloat(alpha) / 255.0)
+	}
+}
+
+#endif
+
 infix operator >>> : MultiplicationPrecedence
 public func >>> <A, B>(a: A?, f: (A) -> B?) -> B? {
     if let x = a {
