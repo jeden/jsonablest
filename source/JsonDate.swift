@@ -13,7 +13,7 @@ extension Date {
 	fileprivate static var dateFormatter: DateFormatter {
 		let iso8610DateFormatter = DateFormatter()
 		iso8610DateFormatter.timeStyle = .full
-		iso8610DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
+		iso8610DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z"
 		iso8610DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
 		return iso8610DateFormatter
 	}
